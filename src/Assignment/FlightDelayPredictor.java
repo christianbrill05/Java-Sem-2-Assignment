@@ -20,6 +20,16 @@ public class FlightDelayPredictor // using Naive Bayes Predictor
 
     public void Probabilities() // probabilities are hard coded here from frequency table
     {
+        // total "Yes" count = 97
+        // total "No" count = 103
+
+        // for features: "AM,Weekday,Clear,Close"
+        yesProbability.put("AM,Weekday,Clear,Close", 0.0618); // P(features|Yes) = 6/97 -> 0.0618
+        noProbability.put("AM,Weekday,Clear,Close", 0.2427); // P(features|No) = 25/103 -> 0.2427
+
+        // for features: "AM,Weekday,Clear,Close"
+        yesProbability.put("AM,Weekday,Clear,Close", 0.0618); // P(features|Yes) = 6/97 -> 0.0618
+        noProbability.put("AM,Weekday,Clear,Close", 0.2427); // P(features|No) = 25/103 -> 0.2427
 
     }
 

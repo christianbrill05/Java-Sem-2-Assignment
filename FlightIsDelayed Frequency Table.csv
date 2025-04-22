@@ -1,0 +1,33 @@
+﻿Count of FlightIsDelayed,,,,FlightIsDelayed,,
+DeparturePeriod,DayType,Weather,DistanceCategory,No,Yes,Grand Total
+AM,Weekday,Clear,Close,25,6,31
+,,,Far,19,7,26
+,,Clear Total,,44,13,57
+,,Rain,Close,3,16,19
+,,,Far,1,10,11
+,,Rain Total,,4,26,30
+,Weekday Total,,,48,39,87
+,Weekend,Clear,Close,8,1,9
+,,,Far,5,1,6
+,,Clear Total,,13,2,15
+,,Rain,Close,2,3,5
+,,,Far,,3,3
+,,Rain Total,,2,6,8
+,Weekend Total,,,15,8,23
+AM Total,,,,63,47,110
+PM,Weekday,Clear,Close,17,5,22
+,,,Far,9,3,12
+,,Clear Total,,26,8,34
+,,Rain,Close,2,9,11
+,,,Far,2,13,15
+,,Rain Total,,4,22,26
+,Weekday Total,,,30,30,60
+,Weekend,Clear,Close,4,2,6
+,,,Far,5,3,8
+,,Clear Total,,9,5,14
+,,Rain,Close,,8,8
+,,,Far,1,7,8
+,,Rain Total,,1,15,16
+,Weekend Total,,,10,20,30
+PM Total,,,,40,50,90
+Grand Total,,,,103,97,200

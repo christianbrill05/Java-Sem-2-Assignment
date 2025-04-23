@@ -10,7 +10,7 @@ public class FlightDelayPredictor // using Naive Bayes Predictor
     private HashMap<String, Double> noProbability;
 
     // constructor for FlightDelayPredictor
-    public FlightDelayPredictor(double priorYes, double priorNo, HashMap<String, Double> yesProbability, HashMap<String, Double> noProbability)
+    public FlightDelayPredictor()
     {
         this.priorYes = 0.485; // from frequency table, yesCount/total = yesProbability -> 97/200 = 0.485
         this.priorNo = 0.515;// noCount/total = yesProbability -> 103/200 = 0.515
@@ -19,7 +19,7 @@ public class FlightDelayPredictor // using Naive Bayes Predictor
         setProbabilities();
     }
 
-    public void setProbabilities()
+    private void setProbabilities()
     // method initializes probabilities where values
     // are calculated and hard coded here from frequency table
     {
@@ -90,5 +90,7 @@ public class FlightDelayPredictor // using Naive Bayes Predictor
         yesProbability.put("PM,Weekend,Rain,Far", 0.0721); // P(features|Yes) = 7/97 -> 0.0721
         noProbability.put("PM,Weekend,Rain,Far", 0.0097); // P(features|No) = 1/103 -> 0.0097
     }
+
+
 
 }

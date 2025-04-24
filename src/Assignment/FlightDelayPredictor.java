@@ -4,16 +4,16 @@ import java.util.HashMap;
 
 public class FlightDelayPredictor // using Naive Bayes Predictor
 {
-    private double priorYes;
-    private double priorNo;
+    private double probYes;
+    private double probNo;
     private HashMap<String, Double> yesProbability;
     private HashMap<String, Double> noProbability;
 
     // constructor for FlightDelayPredictor
     public FlightDelayPredictor()
     {
-        this.priorYes = 0.485; // from frequency table, yesCount/total = yesProbability -> 97/200 = 0.485
-        this.priorNo = 0.515;// noCount/total = yesProbability -> 103/200 = 0.515
+        this.probYes = 0.485; // from frequency table, yesCount/total = yesProbability -> 97/200 = 0.485
+        this.probNo = 0.515; // noCount/total = yesProbability -> 103/200 = 0.515
         this.yesProbability = new HashMap<>();
         this.noProbability = new HashMap<>();
         setProbabilities();
@@ -91,6 +91,23 @@ public class FlightDelayPredictor // using Naive Bayes Predictor
         noProbability.put("PM,Weekend,Rain,Far", 0.0097); // P(features|No) = 1/103 -> 0.0097
     }
 
+    public String predict(String departurePeriod, String dayType, String weather, String distance)
+    {
+        String features = String.join(",", departurePeriod, dayType, weather, distance);
 
+        // calculate Bayes Theorum
+        // delayed = 0.485 * P(features|Yes)
+        // notDelayed = 0.515 * P(features|No)
+        double delayed = probYes * yesProbability.getOrDefault(features, 0.0); // if "features" does not exist, return 0.0
+        double notDelayed = probNo * noProbability.getOrDefault(features, 0.0);
 
+        if (delayed > notDelayed)
+        {
+            return "Yes";
+        } // end if
+        else
+        {
+            return "No";
+        } // end else
+    }
 }

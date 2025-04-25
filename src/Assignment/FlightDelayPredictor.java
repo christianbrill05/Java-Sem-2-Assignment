@@ -92,6 +92,7 @@ public class FlightDelayPredictor // using Naive Bayes Predictor
     }
 
     public String predict(String departurePeriod, String dayType, String weather, String distance)
+    // method calculates if the flight is delayed or not using Bayes Theorum
     {
         String features = String.join(",", departurePeriod, dayType, weather, distance);
 

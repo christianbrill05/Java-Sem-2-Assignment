@@ -114,7 +114,10 @@ public class GUI_Predictor extends JFrame
 
     // level 3
     public void addRow()
+    // method allows the user to add a new row to "FlightIsDelayed Predective Dataset.csv" from user input
+    // the dataset is then retrained
     {
+        // get user input
         String departureTime = (String) departureTimeBox.getSelectedItem();
         String dayType = (String) dayTypeBox.getSelectedItem();
         String weather = (String) weatherBox.getSelectedItem();

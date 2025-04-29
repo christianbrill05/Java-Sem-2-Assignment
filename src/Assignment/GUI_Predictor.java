@@ -11,7 +11,7 @@ public class GUI_Predictor extends JFrame
     private JComboBox<String> weatherBox;
     private JComboBox<String> distanceBox;
     private JLabel result, departureLabel, dayTypeLabel, weatherLabel, distanceLabel;
-    private JButton predictButton;
+    private JButton predictButton, trainButton;
     private FlightDelayPredictor predictor;
 
     // drop down menu options for each feature.
@@ -59,6 +59,11 @@ public class GUI_Predictor extends JFrame
         // apply action listener for prediction button
         predictButton.addActionListener(e -> getPrediction());
 
+        trainButton = new JButton("  Train Dataset ");
+        add(trainButton);
+        // apply action listener for train button
+        trainButton.addActionListener(e -> trainDataset());
+
         add(result);
     }
 
@@ -77,7 +82,16 @@ public class GUI_Predictor extends JFrame
         String prediction = predictor.predict(departureTime, dayType, weather, distance);
         // display result
         result.setText("Is your flight delayed? " + prediction);
+    }
 
+    // level 2
+    public void trainDataset()
+    // method uses trainData() from FlightDelayPredictor class
+    // calculates all probabilities based on the permutations from the dataset
+    // when training is done, a confirmation message is displayed
+    {
+        predictor.trainData("FlightIsDelayed Predective Dataset.csv");
+        JOptionPane.showMessageDialog(this, "Dataset has been trained.");
     }
 
 

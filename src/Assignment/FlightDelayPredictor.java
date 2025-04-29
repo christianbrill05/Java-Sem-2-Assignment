@@ -23,13 +23,18 @@ public class FlightDelayPredictor // using Naive Bayes Predictor Logic
         this.noProbability = new HashMap<>();
     }
 
+    // level 2: classifier training
     public void trainData(String filename)
+    // method reads each line of the FlightIsDelayed Predective Dataset.csv file.
+    // a count of the amount of "Yes" and "No" labels is taken from each permutation of features.
+    // calculates the probabilites of "Yes" and "No" and the conditional probabilites for P(features|Yes) and P(features|No).
+    // calculations are used in the predict() method
     {
         HashMap<String, Integer> yesCount = new HashMap<>();
         HashMap<String, Integer> noCount = new HashMap<>();
         yesTotal = 0;
         noTotal = 0;
-        File dataset = new File("FlightIsDelayed Predictive Dataset.csv");
+        File dataset = new File(filename);
 
         try (Scanner scanner = new Scanner(dataset))
         {

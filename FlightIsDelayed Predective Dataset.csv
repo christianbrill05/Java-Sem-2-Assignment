@@ -202,3 +202,5 @@ AM,Weekday,Clear,Far,Yes
 PM,Weekday,Rain,Far,Yes
 PM,Weekend,Clear,Close,No
 PM,Weekend,Rain,Close,No
+AM,Weekend,Clear,Close,No
+AM,Weekday,Clear,Close,No

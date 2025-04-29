@@ -14,7 +14,7 @@ public class GUI_Predictor extends JFrame
     private JComboBox<String> distanceBox;
     private JComboBox<String> yesNoLabelBox; // new combo box allows user to select "Yes" or "No" for the new row
     private JLabel result, departureLabel, dayTypeLabel, weatherLabel, distanceLabel, yesNoLabel;
-    private JButton predictButton, trainButton, addNewRowButton;
+    private JButton predictButton, trainButton, addNewRowButton, calculateAccuracyButton;
     private FlightDelayPredictor predictor;
 
     // drop down menu options for each feature.
@@ -82,10 +82,16 @@ public class GUI_Predictor extends JFrame
         // apply action listener for addNewRowButton
         addNewRowButton.addActionListener(e -> addRow());
 
+        // level 4
+        calculateAccuracyButton = new JButton("  Calculate Accuracy  ");
+        add(calculateAccuracyButton);
+        // apply action listener for addNewRowButton
+        calculateAccuracyButton.addActionListener(e -> calcAccuracy());
+
         add(result);
     }
 
-    public void getPrediction()
+    private void getPrediction()
     // method gets user input from combo boxes and typecasts them to String.
     // sends input to FlightDelayPredictor class, calculates if the flight will be delayed or not.
     // displays the result on the screen.
@@ -103,7 +109,7 @@ public class GUI_Predictor extends JFrame
     }
 
     // level 2
-    public void trainDataset()
+    private void trainDataset()
     // method uses trainData() from FlightDelayPredictor class
     // calculates all probabilities based on the permutations from the dataset
     // when training is done, a confirmation message is displayed
@@ -113,7 +119,7 @@ public class GUI_Predictor extends JFrame
     }
 
     // level 3
-    public void addRow()
+    private void addRow()
     // method allows the user to add a new row to "FlightIsDelayed Predective Dataset.csv" from user input
     // the dataset is then retrained
     {
@@ -137,6 +143,15 @@ public class GUI_Predictor extends JFrame
 
         predictor.trainData("FlightIsDelayed Predective Dataset.csv"); // retrain data with new row
         JOptionPane.showMessageDialog(this, "New row added, data has been trained.");
+    }
+
+    // level 4
+    private void calcAccuracy()
+    // method calculates the prediction accuracy of the trained model
+    // uses the dataset and displays the result
+    {
+        double accuracy = predictor.calculateAccuracy("FlightIsDelayed Predective Dataset.csv");
+        JOptionPane.showMessageDialog(this, String.format("Accuracy: %.2f%%", accuracy));
     }
 
 

@@ -2,7 +2,11 @@ package Assignment;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class FlightDelayPredictor // using Naive Bayes Predictor Logic
@@ -107,6 +111,90 @@ public class FlightDelayPredictor // using Naive Bayes Predictor Logic
             noProbability.put(feature, (double) noCount.get(feature) / noTotal); // P(features|No)
         }  // end for
     } // end trainData()
+
+    // level 4: calculate the accuracy of the predictor
+    public double calculateAccuracy(String filename)
+    // method splits the data set into 75% (for training) and 25% (for testing)
+    // trains the predictor trainData() and then tests the remaining 25%
+    // returns the prediction accuracy as a percentage.
+    {
+        // lists to seperate "Yes" and "No" labels
+        List<String[]> yesRows = new ArrayList<>();
+        List<String[]> noRows = new ArrayList<>();
+        File dataset = new File(filename);
+
+        try (Scanner scanner = new Scanner(dataset))
+        {
+            scanner.nextLine(); // skip features line
+
+            while (scanner.hasNextLine())
+            {
+                String[] columns = scanner.nextLine().split(",");
+
+                if (columns[4].trim().equals("Yes"))
+                {
+                    yesRows.add(columns);
+                } // end if
+                else if (columns[4].trim().equals("No"))
+                {
+                    noRows.add(columns);
+                } // end else if
+            } // end while
+        } // end try
+        catch (FileNotFoundException e)
+        {
+            System.out.println("An error occured: ");
+            e.printStackTrace();
+        } // catch
+
+        int trainSizeYes = (int) (yesRows.size() * 0.75); // training on 75% of "Yes" values
+        int trainSizeNo = (int) (noRows.size() * 0.75); // training on 75% of "No" values
+
+        // create a new dataset for training
+        List <String[]> trainGroup = new ArrayList<>();
+        trainGroup.addAll(yesRows.subList(0, trainSizeYes)); // add the 75% of "Yes" values into the training group
+        trainGroup.addAll(noRows.subList(0, trainSizeNo)); // add the 75% of "No" values into the training group
+
+        // create the dataset for testing
+        List <String[]> testGroup = new ArrayList<>();
+        testGroup.addAll(yesRows.subList(trainSizeYes, yesRows.size())); // take the last 25% of "Yes" and add in the testing group
+        testGroup.addAll(noRows.subList(trainSizeNo, noRows.size())); // take the last 25% and "No" add in the testing group
+
+        try
+        {
+            File training = new File("training_set.csv"); // temporary file to put the training group inside
+
+            try (FileWriter writer = new FileWriter(training))
+            {
+                writer.write("Departure,Day,Weather,Distance,Label\n"); // add features to first line
+                for (String[] row : trainGroup)
+                {
+                    writer.write(String.join(",",row) + "\n"); // add each training row
+                } // end for
+            }
+            trainData(training.getAbsolutePath()); // train the data
+            training.delete();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        // calculate the accuracy of the 25%
+        int correct = 0;
+
+        for (String[] row : testGroup)
+        {
+            String prediction = predict(row[0].trim(), row[1].trim(), row[2].trim(), row[3].trim()); // predict "Yes" or "No" from features
+
+            if(prediction.equals(row[4].trim()))
+            {
+                correct++; // if the predicted "Yes" or "No" value matches the actual value, increment correct
+            } // end if
+        } // end for
+
+        return 100.0 * correct / testGroup.size(); // accuracy == correct predictions / total predictions
+    }
 
     public String predict(String departurePeriod, String dayType, String weather, String distance)
     // method calculates if the flight is delayed or not using Bayes Theorum
